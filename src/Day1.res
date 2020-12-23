@@ -1,23 +1,22 @@
 let budget_list = list{1721, 979, 366, 299, 675, 1456}
 
-let findSolution = (l: list<int>) => {
+let findSolution = (l: array<int>) => {
   l
-  ->Belt.List.map(e => (e, l))
-  ->Belt.List.map(pair => {
+  ->Belt.Array.map(e => (e, l))
+  ->Belt.Array.map(pair => {
     let (e0, l) = pair
-    let l0 = Belt.List.keep(l, e1 => e0 + e1 == 2020)
+    let l0 = Belt.Array.keep(l, e1 => e0 + e1 == 2020)
     (e0, l0)
   })
-  ->Belt.List.keep(x => {
+  ->Belt.Array.keep(x => {
     let (_, l) = x
-    l != list{}
+    l != [];
   })
-  ->Belt.List.map(p => {
+  ->Belt.Array.map(p => {
     let (e, l) = p
-    (e, Belt.Option.getExn(Belt.List.head(l)))
+    (e, Belt.Array.getExn(l, 0))
   })
-  ->Belt.List.head
-  ->Belt.Option.getExn
+  ->Belt.Array.getExn(0)
   ->(
     p => {
       let (e0, e1) = p
@@ -25,30 +24,23 @@ let findSolution = (l: list<int>) => {
     }
   )
 }
-let result = Request.make(~url="res/day1.txt", ~responseType=Text, ())
-->Future.get(Js.log)
-
+@bs.module("fs") external readFileSync:(string, string) => string = "readFileSync"
 
 /**
-let readTextFile = %raw(`
-  function (file){
-  var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", file, false);
-    rawFile.onreadystatechange = function ()
-    {
-        if(rawFile.readyState === 4)
-        {
-            if(rawFile.status === 200 || rawFile.status == 0)
-            {
-                var allText = rawFile.responseText;
-            }
-        }
-    }
-    rawFile.send(null);}
-`)
-let result = readTextFile("res/day1.txt")
-Js.log(result)
-**/
+let readFileSync = %raw(`
+  function (fileName) {
+    var fs = require('fs');
+    var stream = fs.readFileSync(fileName, 'utf8');
+    return stream;
+  }
+`)**/
 
-let ans = findSolution(budget_list)
+let readStr = readFileSync("./res/day1.txt", "utf8");
+let splitted = Js.String.split("\n", readStr);
+let intArrays = splitted->Belt_Array.map(x => 
+  Belt.Int.fromString(x)
+  -> Belt.Option.getExn);
+Js.log(intArrays);
+
+let ans = findSolution(intArrays)
 Js.log(ans)

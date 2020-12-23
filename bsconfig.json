@@ -12,8 +12,7 @@
   },
   "suffix": ".bs.js",
   "bs-dependencies": [
-    "rescript-request",
-    "rescript-future"
+    "bs-fetch"
   ],
   "warnings": {
     "error" : "+101"

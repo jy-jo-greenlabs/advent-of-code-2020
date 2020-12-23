@@ -37,10 +37,25 @@ let readFileSync = %raw(`
 
 let readStr = readFileSync("./res/day1.txt", "utf8");
 let splitted = Js.String.split("\n", readStr);
-let intArrays = splitted->Belt_Array.map(x => 
+let numArrays = splitted->Belt_Array.map(x => 
   Belt.Int.fromString(x)
   -> Belt.Option.getExn);
-Js.log(intArrays);
+let ans = findSolution(numArrays)
+Js.log(ans);
 
-let ans = findSolution(intArrays)
-Js.log(ans)
+let findP2Solution = (l: list<int>) => {
+    let (x0, x1, x2) = Belt.List.map(l, x0 => 
+     Belt.List.map(l, x1 => 
+      Belt.List.map(l, x2 => (x0, x1, x2))))
+      ->Belt.List.flatten
+      ->Belt.List.flatten
+      ->Belt.List.keep(p => {let (x0, x1, x2) = p; 
+      x0 != x1 && x1 != x2 && x0 != x2 && x0 + x1 + x2 == 2020})
+      ->Belt.List.getExn(0);
+      x0 * x1 * x2;
+}
+let numList = Belt.List.fromArray(numArrays);
+let arrs = findP2Solution(numList);
+Js.log(arrs);
+
+

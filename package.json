@@ -6,7 +6,8 @@
     "clean": "bsb -clean-world",
     "watch": "bsb -make-world -w",
     "start": "nodemon ./src/Day2.bs.js",
-    "day3js": "nodemon ./src/Day3.bs.js"
+    "day3js": "nodemon ./src/Day3.bs.js",
+    "day4js": "nodemon ./src/Day4.bs.js"
   },
   "keywords": [
     "rescript"

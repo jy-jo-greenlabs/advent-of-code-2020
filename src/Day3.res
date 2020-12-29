@@ -81,7 +81,7 @@ let p2Init = p2Slopes->Belt_Array.map(s => {count:0, col:0, row:0, slope:s})
 let p2Results = p2Init->Belt_Array.map(i => area.map->Belt_Array.reduce(i, explore(area)))
 ->Belt_Array.map(i => float(i.count));
 Js.log(p2Results)
-open Belt.Float
-let p2Counts = p2Results->Belt_Array.reduce(1., (x,y) => x * y)
+
+let p2Counts = p2Results->Belt_Array.reduce(1., (x,y) => x *. y)
 Js.log(p2Counts)
 

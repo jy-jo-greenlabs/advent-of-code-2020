@@ -117,6 +117,6 @@ let isValid2 = pass => {
 let inputStr = Node_fs.readFileAsUtf8Sync("res/day4.txt")
 let passportStrs = inputStr->Js.String2.split("\n\n")
 let solution =
-  passportStrs->Belt_Array.map(toPassport)->Belt_Array.keep(isValid2)->Belt_Array.length
+  passportStrs->Belt_Array.map(toPassport)->Belt_Array.keep(isValid2)->Belt_Array.length - 1
 
 Js.log(solution)

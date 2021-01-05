@@ -90,17 +90,19 @@ let getFirstCycleMoment = current => {
 let rec findNoLoopRun = current => {
   let changeAccumulation = ({insts, line} as state) => {
     ...state,
-    insts: insts->Array.mapWithIndex((i, ({inst, count} as acc)) => 
-    switch (i==line, inst) {
-    | (true, Nop(x)) => {inst: Jmp(x), count:count}
-    | (true, Jmp(x)) => {inst: Nop(x), count:count}
-    | _ => acc})
+    insts: insts->Array.mapWithIndex((i, {inst, count} as acc) =>
+      switch (i == line, inst) {
+      | (true, Nop(x)) => {inst: Jmp(x), count: count}
+      | (true, Jmp(x)) => {inst: Nop(x), count: count}
+      | _ => acc
+      }
+    ),
   }
-  
+
   let (last, result) = current->Option.map(changeAccumulation)->getFirstCycleMoment
   switch result {
-    | None => last
-    | _ => findNoLoopRun(current->nextState)
+  | None => last
+  | _ => findNoLoopRun(current->nextState)
   }
 }
 

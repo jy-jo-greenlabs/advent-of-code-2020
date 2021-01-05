@@ -35,11 +35,10 @@ type explorePos = {
   slope: position,
 }
 let parsedList = Node_fs.readFileAsUtf8Sync("res/day3.txt")
-let strings = parsedList->Js.String2.split("\n")
-->makeMap
+let strings = parsedList->Js.String2.split("\n")->makeMap
 let area = getArea(strings)
 
-let explore = (area,{count, col, row, slope}, mapRow) => {
+let explore = (area, {count, col, row, slope}, mapRow) => {
   let cell = mapRow->Belt_Array.getExn(col)
   {
     col: if row == cell.y {
@@ -61,7 +60,6 @@ let explore = (area,{count, col, row, slope}, mapRow) => {
   }
 }
 
-
 let slopeP1 = {x: 3, y: 1}
 let solutionP1 = area.map->Belt_Array.reduce(
   {
@@ -75,13 +73,14 @@ let solutionP1 = area.map->Belt_Array.reduce(
 
 Js.log(solutionP1.count)
 
-let p2Slopes = [{x:1, y:1}, slopeP1, {x:5, y:1}, {x:7, y:1}, {x:1, y:2}]
+let p2Slopes = [{x: 1, y: 1}, slopeP1, {x: 5, y: 1}, {x: 7, y: 1}, {x: 1, y: 2}]
 
-let p2Init = p2Slopes->Belt_Array.map(s => {count:0, col:0, row:0, slope:s})
-let p2Results = p2Init->Belt_Array.map(i => area.map->Belt_Array.reduce(i, explore(area)))
-->Belt_Array.map(i => float(i.count));
+let p2Init = p2Slopes->Belt_Array.map(s => {count: 0, col: 0, row: 0, slope: s})
+let p2Results =
+  p2Init
+  ->Belt_Array.map(i => area.map->Belt_Array.reduce(i, explore(area)))
+  ->Belt_Array.map(i => float(i.count))
 Js.log(p2Results)
 
-let p2Counts = p2Results->Belt_Array.reduce(1., (x,y) => x *. y)
+let p2Counts = p2Results->Belt_Array.reduce(1., (x, y) => x *. y)
 Js.log(p2Counts)
-

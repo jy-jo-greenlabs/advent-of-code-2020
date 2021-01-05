@@ -83,10 +83,10 @@ let bagKinds = (bags, tailTarget) => {
 
 //shiny gold, dark olive, vibrant plum
 let bags = readFile("./res/day7.txt")->splitByLF->generateBags
-Js.log(bagKinds(bags, "shiny gold")->Set.String.size-1)
+Js.log(bagKinds(bags, "shiny gold")->Set.String.size - 1)
 
 let bagVolume = (bags, mainColor) => {
-  let rec countSubBag = (color) => {
+  let rec countSubBag = color => {
     bags
     ->Array.getBy(b => b["color"] == color)
     ->Option.mapWithDefault([], b => b["contains"])

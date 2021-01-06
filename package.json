@@ -11,7 +11,9 @@
     "day5js": "nodemon ./src/Day5.bs.js",
     "day6js": "nodemon ./src/Day6.bs.js",
     "day7js": "nodemon ./src/Day7.bs.js",
-    "day8js": "nodemon ./src/Day8.bs.js"
+    "day8js": "nodemon ./src/Day8.bs.js",
+    "day9js": "nodemon ./src/Day9.bs.js",
+    "day10js": "nodemon ./src/Day10.bs.js"
   },
   "keywords": [
     "rescript"

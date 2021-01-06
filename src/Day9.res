@@ -17,13 +17,8 @@ let initialize = (arr, preamble) => {
   ->(
     a =>
       a
-      ->Array.mapWithIndex((i, x) =>
-        switch preamble <= i {
-        | true => Some({n: x, previous: a->Array.slice(~offset=i - preamble, ~len=preamble)})
-        | false => None
-        }
-      )
-      ->Array.keepMap(x => x)
+      ->Array.keepWithIndex((_, i) => preamble <= i)
+      ->Array.mapWithIndex((i,x) => {n: x, previous: a->Array.slice(~offset=i - preamble, ~len=preamble)})
   )
 }
 

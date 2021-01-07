@@ -13,22 +13,3 @@ module MakeTwoCombsFinder = (Info: TwoCombSerchable) => {
   }
 }
 
-module IntFindable = {
-    type t = int
-    let guard = (x, y) => x + y == 2020 && x != y
-}
-
-module IntTwoCombFinder = MakeTwoCombsFinder(IntFindable)
-
-module FloatFindable = {
-    type t = float
-    let guard = (x, y) => x +. y == 2020. && x != y
-}
-
-module FloatTwoCombFinder = MakeTwoCombsFinder(FloatFindable)
-
-
-
-IntTwoCombFinder.find([1020, 10, 20, 40, 50, 1000])->Js.log
-
-FloatTwoCombFinder.find([1020., 10., 20., 40., 50., 1000.])->Js.log

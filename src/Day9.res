@@ -7,8 +7,12 @@ type numberSet = {
 type numberSets = array<numberSet>
 
 let sumOfTwoNotExists = ({n, previous}) => {
-  //previous->Array.forEach(a => previous->Array.forEach(b => if a + b == n {Js.log3(a,b,n)} ));
-  previous->Array.some(a => previous->Array.some(b => a +. b == n && a != b))->(x => !x)
+  module FloatFindable = {
+    type t = float
+    let guard = (x, y) => x +. y == n && x != y
+  }
+  module FloatTwoCombFinder = Util.MakeTwoCombsFinder(FloatFindable)
+  previous->FloatTwoCombFinder.find->Array.length == 0
 }
 
 let initialize = (arr, preamble) => {

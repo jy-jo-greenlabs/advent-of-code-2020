@@ -1,25 +1,19 @@
 let budget_list = list{1721, 979, 366, 299, 675, 1456}
 
+module IntFindable = {
+    type t = int
+    let guard = (x, y) => x + y == 2020 && x != y
+}
+
+module IntTwoCombFinder = Util.MakeTwoCombsFinder(IntFindable)
+
 // Belt.Array.keepMap :: array('a) => ('a, f) => array(option('a))
 
 let findSolution = (l: array<int>) => {
   l
-  ->Belt.Array.map(e => (e, l))
-  ->Belt.Array.map(pair => {
-    let (e0, l) = pair
-    let l0 = Belt.Array.keep(l, e1 => e0 + e1 == 2020)
-    (e0, l0)
-  })
-  ->Belt.Array.keep(x => {
-    let (_, l) = x
-    l != []
-  })
-  ->Belt.Array.map(p => {
-    let (e, l) = p
-    (e, Belt.Array.getExn(l, 0))
-  })
-  ->Belt.Array.getExn(0)
-  ->(((e0, e1)) => e0 * e1)
+  ->IntTwoCombFinder.find
+  ->Belt.Array.get(0)
+  ->Belt.Option.map(((e0, e1)) => e0 * e1)
 }
 @bs.module("fs") external readFileSync: (string, string) => string = "readFileSync"
 

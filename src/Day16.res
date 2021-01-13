@@ -9,26 +9,27 @@ type field = {
   isInRange: int => bool,
 }
 
+module Opt = {
+  let let_ = Belt.Option.flatMap;
+}
+
+// `bs-let`
+
 let getField = line => {
-  line
-  ->Js.String2.match_(%re("/(\w+): (\d+)-(\d+) or (\d+)-(\d+)/"))
-  ->(s =>
-    switch s {
-    | Some([_, n, a, b, c, d]) =>
-      Some(n, Int.fromString(a), Int.fromString(b), Int.fromString(c), Int.fromString(d))
+  let foo = line->Js.String2.match_(%re("/(\w+): (\d+)-(\d+) or (\d+)-(\d+)/"));
+  let%Opt bar = switch foo {
+    | [_, n, a, b, c, d] =>
+      Some(n, int_of_string(a), int_of_string(b), int_of_string(c), int_of_string(d))
     | _ => None
-    })
-  ->(
-    s =>
-      switch s {
-      | Some(name, Some(a), Some(b), Some(c), Some(d)) =>
-        Some({
-          name: name,
-          isInRange: x => (a <= x && x <= b) || (c <= x && x <= d),
-        })
-      | _ => None
-      }
-  )
+    };
+  switch bar {
+    | (name, a, b, c, d) =>
+      Some({
+        name: name,
+        isInRange: x => (a <= x && x <= b) || (c <= x && x <= d),
+      })
+    | _ => None
+    }
 }
 
 let readFields = input => {
